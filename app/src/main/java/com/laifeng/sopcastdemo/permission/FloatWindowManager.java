@@ -21,7 +21,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 
-
 /**
  * Description:
  *
@@ -59,17 +58,8 @@ public class FloatWindowManager {
     private boolean miuiPermissionCheck(Context context) {
         return MiuiUtils.checkFloatWindowPermission(context);
     }
-
-    public void applyPermission(Context context) {
-        if (Build.VERSION.SDK_INT < 23) {
-            if (RomUtils.checkIsMiuiRom()) {
-                miuiROMPermissionApply(context);
-            }
-        }
-        commonROMPermissionApply(context);
-    }
-
     private boolean commonROMPermissionCheck(Context context) {
+        //最新发现魅族6.0的系统这种方式不好用，天杀的，只有你是奇葩，没办法，单独适配一下
 
             Boolean result = true;
             if (Build.VERSION.SDK_INT >= 23) {
@@ -83,6 +73,14 @@ public class FloatWindowManager {
             }
             return result;
 
+    }
+    public void applyPermission(Context context) {
+        if (Build.VERSION.SDK_INT < 23) {
+            if (RomUtils.checkIsMiuiRom()) {
+                miuiROMPermissionApply(context);
+            }
+        }
+        commonROMPermissionApply(context);
     }
 
     private void miuiROMPermissionApply(final Context context) {
@@ -102,9 +100,10 @@ public class FloatWindowManager {
      * 通用 rom 权限申请
      */
     private void commonROMPermissionApply(final Context context) {
+        //这里也一样，魅族系统需要单独适配
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            showConfirmDialog(context, new OnConfirmResult() {
+            if (Build.VERSION.SDK_INT >= 23) {
+                showConfirmDialog(context, new OnConfirmResult() {
                     @Override
                     public void confirmResult(boolean confirm) {
                         if (confirm) {
@@ -120,6 +119,7 @@ public class FloatWindowManager {
                     }
                 });
             }
+
     }
     public static void commonROMPermissionApplyInternal(Context context) throws NoSuchFieldException, IllegalAccessException {
         Class clazz = Settings.class;

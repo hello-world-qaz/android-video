@@ -74,6 +74,9 @@ public class RomUtils {
         }
         return line;
     }
+    public static boolean checkIsHuaweiRom() {
+        return Build.MANUFACTURER.contains("HUAWEI");
+    }
 
     /**
      * check if is miui ROM
@@ -82,7 +85,26 @@ public class RomUtils {
         return !TextUtils.isEmpty(getSystemProperty("ro.miui.ui.version.name"));
     }
 
+    public static boolean checkIsMeizuRom() {
+        //return Build.MANUFACTURER.contains("Meizu");
+        String meizuFlymeOSFlag  = getSystemProperty("ro.build.display.id");
+        if (TextUtils.isEmpty(meizuFlymeOSFlag)){
+            return false;
+        }else if (meizuFlymeOSFlag.contains("flyme") || meizuFlymeOSFlag.toLowerCase().contains("flyme")){
+            return  true;
+        }else {
+            return false;
+        }
+    }
 
+    public static boolean checkIs360Rom() {
+        //fix issue https://github.com/zhaozepeng/FloatWindowPermission/issues/9
+        return Build.MANUFACTURER.contains("QiKU")
+                || Build.MANUFACTURER.contains("360");
+    }
 
-
+    public static boolean checkIsOppoRom() {
+        //https://github.com/zhaozepeng/FloatWindowPermission/pull/26
+        return Build.MANUFACTURER.contains("OPPO") || Build.MANUFACTURER.contains("oppo");
+    }
 }

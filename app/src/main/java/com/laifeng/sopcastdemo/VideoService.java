@@ -121,7 +121,7 @@ public class VideoService extends Service {
         mLFLiveView.init();
         CameraConfiguration.Builder cameraBuilder = new CameraConfiguration.Builder();
         cameraBuilder.setOrientation(CameraConfiguration.Orientation.PORTRAIT)
-                .setFacing(CameraConfiguration.Facing.FRONT);
+                .setFacing(CameraConfiguration.Facing.BACK);
         CameraConfiguration cameraConfiguration = cameraBuilder.build();
         mLFLiveView.setCameraConfiguration(cameraConfiguration);
 
