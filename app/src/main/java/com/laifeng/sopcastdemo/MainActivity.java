@@ -13,6 +13,11 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //添加悬浮窗动态权限申请
+        instance = FloatWindowManager.getInstance();
+        if(!instance.checkPermission(MainActivity.this)){
+            instance.applyPermission(MainActivity.this);
+        }
         Intent it=new Intent(this, VideoService.class);
         startService(it);
     }
