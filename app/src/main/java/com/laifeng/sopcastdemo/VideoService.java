@@ -12,11 +12,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.laifeng.sopcastsdk.configuration.AudioConfiguration;
 import com.laifeng.sopcastsdk.configuration.CameraConfiguration;
@@ -27,15 +24,13 @@ import com.laifeng.sopcastsdk.ui.CameraLivingView;
 import com.laifeng.sopcastsdk.utils.SopCastLog;
 import com.laifeng.sopcastsdk.video.effect.NullEffect;
 
-import static com.laifeng.sopcastsdk.constant.SopCastConstant.TAG;
-
 public class VideoService extends Service {
     private static String TAG = "VideoService";
     private boolean isWindowDismiss = true;
     private WindowManager windowManager = null;
     private WindowManager.LayoutParams mParams = null;
     public LinearLayout floatView;
-    private CameraLivingView mLFLiveView;
+    public  CameraLivingView mLFLiveView;
     private NullEffect mNullEffect;
     private boolean isRecording;
     private RtmpSender mRtmpSender;
@@ -51,20 +46,19 @@ public class VideoService extends Service {
     @Override
     public void onCreate() {
         System.out.println("onCreate invoke");
+        showWindow(getApplicationContext());
         super.onCreate();
     }
 
-    /**
-     * 每次通过startService()方法启动Service时都会被回调。
-     * @param intent
-     * @param flags
-     * @param startId
-     * @return
-     */
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         System.out.println("onStartCommand invoke");
-        showWindow(getApplicationContext());
+        String command = intent.getStringExtra("command");
+
+        if ("switchcamera".equals(command)) {
+            SwitchCamera();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -210,6 +204,9 @@ public class VideoService extends Service {
             SopCastLog.d(TAG, "Current Bps: " + mCurrentBps);
         }
     };
-
+    public void SwitchCamera(){
+        mLFLiveView.switchCamera();
+        Log.d(TAG,"camera has changed");
+    }
 
 }
